@@ -1,0 +1,41 @@
+name: Build And Release
+on:
+  push:
+    branches: [ master ]
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+        environment: Production
+        steps:
+            - name: Checkout
+              uses: actions/checkout@master
+              with:
+                  persist-credentials: false
+                  submodules: recursive
+
+            - name: Build Env Prop
+              shell: pwsh
+              run: .\build.ps1 --stable=true
+
+            - name: Use Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 16
+
+            - name: Build
+              run: |
+                  npm install -g yarn
+                  yarn cache clean
+                  export NODE_OPTIONS=--max-old-space-size=8192
+                  yarn && yarn docs:build
+                  ls build
+                  tar -czvf build.tar.gz docs
+
+            - name: Create GitHub Release
+              uses: ncipollo/release-action@v1
+              with:
+                   tag: ${{ env.ReleaseVersion }}
+                   allowUpdates: true
+                   artifacts: "build.tar.gz"
+                   token: ${{ github.token }}
+                   generateReleaseNotes: true    
