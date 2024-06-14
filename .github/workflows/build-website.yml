@@ -28,7 +28,7 @@ jobs:
                   yarn cache clean
                   export NODE_OPTIONS=--max-old-space-size=8192
                   yarn && yarn docs:build
-                  ls build
+                  ls docs
                   tar -czvf build.tar.gz docs
 
             - name: Create GitHub Release
