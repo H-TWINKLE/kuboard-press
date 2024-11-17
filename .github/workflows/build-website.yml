@@ -33,12 +33,13 @@ jobs:
                   yarn && yarn docs:build
                   ls docs
                   tar -czvf build.tar.gz docs
+                  cp build.tar.gz kuboard_doc-${currentBranch}_build.tar.gz
 
             - name: Create GitHub Release
               uses: ncipollo/release-action@v1
               with:
                    tag: ${{ env.project_branch }}
                    allowUpdates: true
-                   artifacts: "build.tar.gz"
+                   artifacts: "kuboard_doc-${currentBranch}_build.tar.gz"
                    token: ${{ github.token }}
                    generateReleaseNotes: true    
