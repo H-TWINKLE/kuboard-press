@@ -33,7 +33,7 @@ jobs:
                   yarn && yarn docs:build
                   ls docs
                   tar -czvf build.tar.gz docs
-                  cp build.tar.gz kuboard_doc-${currentBranch}_build.tar.gz
+                  cp build.tar.gz kuboard_doc-${project_branch}_build.tar.gz
                   ls
 
             - name: Create GitHub Release
