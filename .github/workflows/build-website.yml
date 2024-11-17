@@ -34,12 +34,13 @@ jobs:
                   ls docs
                   tar -czvf build.tar.gz docs
                   cp build.tar.gz kuboard_doc-${currentBranch}_build.tar.gz
+                  ls
 
             - name: Create GitHub Release
               uses: ncipollo/release-action@v1
               with:
                    tag: ${{ env.project_branch }}
                    allowUpdates: true
-                   artifacts: "kuboard_doc-${currentBranch}_build.tar.gz"
+                   artifacts: "kuboard_doc-*"
                    token: ${{ github.token }}
                    generateReleaseNotes: true    
